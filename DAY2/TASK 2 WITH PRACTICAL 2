@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airline Demo Website</title>
+    <style>
+        * {box-sizing: border-box}
+        body {font-family: Verdana, sans-serif; margin:0; background-color: #f4f4f4;}
+
+        /* Header Styles */
+        .header {
+            background-color: rgb(7, 41, 82);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+
+        .content button {
+            background: transparent;
+            color: white;
+            border: 1px solid white;
+            padding: 8px 15px;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        /* Slideshow container */
+        .slideshow-container {
+            max-width: 1000px;
+            position: relative;
+            margin: 20px auto;
+            overflow: hidden;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+        }
+
+        /* Hide slides by default */
+        .slide {
+            display: none;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            vertical-align: middle;
+        }
+
+        /* Next & previous buttons */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            width: auto;
+            padding: 16px;
+            margin-top: -22px;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            transition: 0.6s ease;
+            border-radius: 0 3px 3px 0;
+            user-select: none;
+            background-color: rgba(0,0,0,0.3);
+        }
+
+        .next {
+            right: 0;
+            border-radius: 3px 0 0 3px;
+        }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(0,0,0,0.8);
+        }
+
+        /* Caption text */
+        .text {
+            color: #ffffff;
+            font-size: 18px;
+            padding: 15px;
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        /* The dots */
+        .dot {
+            cursor: pointer;
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+
+        .active, .dot:hover {
+            background-color: #717171;
+        }
+
+        /* Fading animation */
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+
+        @keyframes fade {
+            from {opacity: .4} 
+            to {opacity: 1}
+        }
+
+        /* Table Styles */
+        h3 {
+            background-color: rgb(7, 41, 82);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 20px auto;
+        }
+
+        table, td, th {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: rgb(7, 41, 82);
+            color: white;
+        }
+
+        tr:nth-child(even) {background-color: #f2f2f2;}
+        :root 
+        {
+        --sq-blue: #072952;
+        --sq-gold: #bd954f; /* Added a touch of gold for that premium feel */
+        --light-bg: #f4f7f9;
+        }
+
+    .destination-container {
+        width: 90%;
+        margin: 40px auto;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        overflow: hidden;
+        font-family: 'Segoe UI', Roboto, sans-serif;
+    }
+
+    .destination-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .destination-table th {
+        background-color: var(--sq-blue);
+        color: white;
+        padding: 20px;
+        text-align: left;
+        font-size: 14px;
+        text-transform: uppercase;
+        border-bottom: 3px solid var(--sq-gold);
+    }
+
+    .destination-table td {
+        padding: 15px 20px;
+        border-bottom: 1px solid #e0e0e0;
+        font-size: 15px;
+    }
+
+    .continent-cell {
+        background-color: var(--light-bg);
+        font-weight: 700;
+        color: var(--sq-blue);
+        text-align: center;
+        border-right: 1px solid #ddd;
+        width: 150px;
+    }
+
+    .airport-pill {
+        background: #f0f0f0;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .status-tag {
+        color: #2e7d32;
+        font-size: 12px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .destination-table tr:hover td {
+        background-color: #fafafa;
+    }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo-area">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmn-g1gBRZPrK3zcs0HC40ax-Dujyfz_JPPlxgvJzk&s">
+        </div>
+        <div class="content">
+            <button>Menu</button>
+            <button>About</button>
+            <button>Login</button>
+            <button>Register</button>
+        </div>
+    </div>
+
+    <div class="slideshow-container">
+        <div class="slide fade">
+            <img src="https://picsum.photos/id/10/1000/500" alt="Luxury Flight">
+            <div class="text">Enjoy the luxury of flying with Singapore Airlines!</div>
+        </div>
+
+        <div class="slide fade">
+            <img src="https://picsum.photos/id/15/1000/500" alt="Comfort">
+            <div class="text">Experience the ultimate comfort</div>
+        </div>
+
+        <div class="slide fade">
+            <img src="https://picsum.photos/id/28/1000/500" alt="Getaway">
+            <div class="text">Plan your getaway and look forward to flying again</div>
+        </div>
+
+        <div class="slide fade">
+            <img src="https://picsum.photos/id/43/1000/500" alt="Wi-fi">
+            <div class="text">Unlimited Wi-fi with KrisFlyer, seamless travel</div>
+        </div>
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+
+    <div style="text-align: center">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+        <span class="dot" onclick="currentSlide(4)"></span>
+    </div>
+
+    <h3>Explore where we fly to</h3>
+    <div class="destination-container">
+    <table class="destination-table">
+        <thead>
+            <tr>
+                <th>Region</th>
+                <th>Country</th>
+                <th>Destination City</th>
+                <th>Code</th>
+                <th>Frequency</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="continent-cell" rowspan="4">ASIA</td>
+                <td>India</td>
+                <td>Mumbai</td>
+                <td><span class="airport-pill">BOM</span></td>
+                <td><span class="status-tag">Daily</span></td>
+            </tr>
+            <tr>
+                <td>India</td>
+                <td>New Delhi</td>
+                <td><span class="airport-pill">DEL</span></td>
+                <td><span class="status-tag">Daily</span></td>
+            </tr>
+            <tr>
+                <td>Japan</td>
+                <td>Tokyo</td>
+                <td><span class="airport-pill">HND</span></td>
+                <td><span class="status-tag">2x Daily</span></td>
+            </tr>
+            <tr>
+                <td>UAE</td>
+                <td>Dubai</td>
+                <td><span class="airport-pill">DXB</span></td>
+                <td><span class="status-tag">Daily</span></td>
+            </tr>
+
+            <tr>
+                <td class="continent-cell" rowspan="4">EUROPE</td>
+                <td>France</td>
+                <td>Paris</td>
+                <td><span class="airport-pill">CDG</span></td>
+                <td><span class="status-tag">Daily</span></td>
+            </tr>
+            <tr>
+                <td>Germany</td>
+                <td>Berlin</td>
+                <td><span class="airport-pill">BER</span></td>
+                <td><span class="status-tag">3x Weekly</span></td>
+            </tr>
+            <tr>
+                <td>Turkey</td>
+                <td>Istanbul</td>
+                <td><span class="airport-pill">IST</span></td>
+                <td><span class="status-tag">Daily</span></td>
+            </tr>
+            <tr>
+                <td>United Kingdom</td>
+                <td>London</td>
+                <td><span class="airport-pill">LHR</span></td>
+                <td><span class="status-tag">3x Daily</span></td>
+            </tr>
+
+            <tr>
+                <td class="continent-cell" rowspan="3">NORTH AMERICA</td>
+                <td>Canada</td>
+                <td>Toronto</td>
+                <td><span class="airport-pill">YYZ</span></td>
+                <td><span class="status-tag">Daily</span></td>
+            </tr>
+            <tr>
+                <td>USA</td>
+                <td>Los Angeles</td>
+                <td><span class="airport-pill">LAX</span></td>
+                <td><span class="status-tag">Daily</span></td>
+            </tr>
+            <tr>
+                <td>USA</td>
+                <td>New York</td>
+                <td><span class="airport-pill">JFK</span></td>
+                <td><span class="status-tag">Daily</span></td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        // Next/previous controls
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        // Thumbnail image controls
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            let i;
+            // FIXED: Target 'slide' class, not 'sliders'
+            let slides = document.getElementsByClassName("slide");
+            let dots = document.getElementsByClassName("dot");
+            
+            if (n > slides.length) {slideIndex = 1}    
+            if (n < 1) {slideIndex = slides.length}
+            
+            // Hide all slides
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            
+            // Remove active class from dots
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            
+            // Show the current slide
+            slides[slideIndex-1].style.display = "block";  
+            dots[slideIndex-1].className += " active";
+        }
+    </script>
+    
+</body>
+</html>
