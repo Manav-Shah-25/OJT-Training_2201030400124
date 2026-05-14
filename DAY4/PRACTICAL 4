@@ -32,3 +32,11 @@
     </div>
 </body>
 </html>
+
+Practical 4.css external file :-
+
+.External{
+    border-style: outset;
+    background-color: rgb(55, 170, 105);
+    border: solid;
+}
