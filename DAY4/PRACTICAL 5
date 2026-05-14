@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical 5</title>
+<style>
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: pink;
+  }
+
+  .animated-box {
+    width: 100px;
+    height: 100px;
+    background-color: seagreen;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-weight: bold;
+  }
+
+  .animated-box:hover {
+    transform: scale(1.2) rotate(45deg) translateX(200px);
+    background-color: #2ecc71;
+  }
+</style>
+
+</head>
+<body>
+<h1>Practical 5</h1>
+<h1>This page shows the use of animation.</h1>
+<div class="container">
+  <div class="animated-box">Touch Me</div>
+</div>
+
+</body>
+</html>
