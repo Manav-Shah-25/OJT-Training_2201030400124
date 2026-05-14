@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical 6</title>
+<style>
+        .container {
+  display: grid;
+  grid-template-columns: 200px 1fr 200px; 
+  grid-template-rows: auto 1fr auto;      
+  grid-template-areas: 
+    "header header header"
+    "nav    main   aside"
+    "footer footer footer";
+  min-height: 100vh;
+}
+
+header { grid-area: header; background: #34495e; color: white; }
+nav    { grid-area: nav;    background: #ecf0f1; }
+main   { grid-area: main;   background: #fff;    }
+aside  { grid-area: aside;  background: #ecf0f1; }
+footer { grid-area: footer; background: #2c3e50; color: white; }
+
+header, nav, main, aside, footer {
+  padding: 20px;
+  text-align: center;
+}
+</style>
+</head>
+<body>
+    <h1>Practical 6</h1>
+    <h1>This page shows the creation of grail layout using CSS.</h1>
+    <div class="container">
+      <header>Header <br><br> (This is where the header gets displayed.)</header>
+      <nav>Navigation <br><br><br><br><br>(This area displays the left side bar which is also known as navigation bar.)</nav>
+      <main>Main Content <br><br><br><br><br>(This space is used to display the main content of the screen.)</main>
+      <aside>Sidebar <br><br><br><br><br> (This area displays the right side bar and its content.)</aside>
+      <footer>Footer <br><br> (This is where the footer gets displayed.)</footer>
+    </div>
+    
+</body>
+</html>
