@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical 7</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+    <h2>PRACTICAL 7</h2>
+    <h4>Creating a Form Page using Bootstrap</h4>
+    <br><br>
+
+    <form>
+
+    <h3>SURVEY FORM</h3>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup">Name</span>
+        <input type="text" class="form-control" aria-label="Name" aria-describedby="inputGroup" placeholder="Full Name">
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup">Mobile Number</span>
+        <input type="text" class="form-control" aria-label="Name" aria-describedby="inputGroup" placeholder="Must not be more than 10 digits">
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup">Enter your city</span>
+        <input type="text" class="form-control" aria-label="Name" aria-describedby="inputGroup">
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup">E-mail</span>
+        <input type="email" class="form-control" aria-label="Name" aria-describedby="inputGroup">
+    </div>
+
+     <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup">Password</span>
+        <input type="password" class="form-control" aria-label="Name" aria-describedby="inputGroup" placeholder="Create your password (atleast 8-15 characters)">
+    </div>
+
+     <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup">Confirm Password</span>
+        <input type="password" class="form-control" aria-label="Name" aria-describedby="inputGroup">
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup">Select Your Age</span>
+        <select class="form-select-sm" aria-label="select example">
+      <option value="">Choose...</option>
+      <option value="3">20</option>
+      <option value="1">21</option>
+      <option value="2">22</option>
+      <option value="3">23</option>
+      <option value="1">24</option>
+      <option value="2">25</option>
+      <option value="3">26</option>
+      <option value="1">27</option>
+      <option value="2">28</option>
+      <option value="3">29</option>
+      <option value="3">30</option>
+    </select>
+    </div>
+
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="inputGroup">Select your hobbies</span>
+        <div class="form-check form-check-inline">
+  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+  <label class="form-check-label" for="inlineCheckbox1">Singing</label>
+</div>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+  <label class="form-check-label" for="inlineCheckbox2">Writing</label>
+</div>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+  <label class="form-check-label" for="inlineCheckbox1">Dancing</label>
+</div>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+  <label class="form-check-label" for="inlineCheckbox2">Journaling</label>
+</div>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+  <label class="form-check-label" for="inlineCheckbox1">Gardening</label>
+</div>
+<div class="form-check form-check-inline">
+  <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+  <label class="form-check-label" for="inlineCheckbox2">Reading</label>
+</div>
+</div>
+
+<button type="button" class="btn btn-primary">Submit</button>
+
+</form>
+</body>
+</html>
