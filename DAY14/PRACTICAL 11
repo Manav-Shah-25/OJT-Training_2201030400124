@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical 11: Zebra Stripes Table Effect</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #dddddd;
+        }
+        th {
+            background-color: navy;
+            color: white;
+        }
+        .even-row {
+            background-color: #dbdbdb;
+        }
+        .odd-row {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Practical 11</h1>
+    <h2>Zebra Stripes Table Effect using jQuery</h2>
+    <br>
+    <table>
+        <thead>
+            <tr>
+                <th>Roll No</th>
+                <th>Student Name</th>
+                <th>Course</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>101</td>
+                <td>Raj Goswami</td>
+                <td>Web Development</td>
+                <td>A+</td>
+            </tr>
+            <tr>
+                <td>102</td>
+                <td>Manav Shah</td>
+                <td>Data Structures</td>
+                <td>B</td>
+            </tr>
+            <tr>
+                <td>103</td>
+                <td>Preet Patel</td>
+                <td>Database Management</td>
+                <td>A</td>
+            </tr>
+            <tr>
+                <td>104</td>
+                <td>Yash Asodariya</td>
+                <td>Cyber Security</td>
+                <td>A+</td>
+            </tr>
+            <tr>
+                <td>105</td>
+                <td>Unnati Gohil</td>
+                <td>Machine Learning</td>
+                <td>B+</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            $("tbody tr:even").addClass("even-row");
+            $("tbody tr:odd").addClass("odd-row");  
+        });
+    </script>
+
+</body>
+</html>
