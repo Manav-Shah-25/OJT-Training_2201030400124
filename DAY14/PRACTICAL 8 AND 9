@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CityRoute.in - Navigate Your City</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+      color: #333;
+    }
+    
+    nav {
+      background-color: #fff;
+      padding: 15px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #e9ecef;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: 700;
+      color: #e63946;
+      text-decoration: none;
+    }
+
+    .logo span {
+      color: #333;
+    }   
+    
+    .flex {
+      list-style: none;
+      display: flex;
+      gap: 30px;
+    }
+
+    .flex a {
+      text-decoration: none;
+      color: #555;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .flex a:hover {
+      color: #e63946;
+    }
+
+    .flex button {
+      background-color: #e63946;
+      color: #fff !important;
+      padding: 8px 20px;
+      border-radius: 6px;
+      transition: background-color 0.2s !important;
+    }
+
+    .flex button:hover {
+      background-color: #c1121f !important;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #e63946 0%, #c1121f 100%);
+      color: #fff;
+      padding: 80px 40px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      line-height: 1.2;
+    }
+
+    .hero p {
+      font-size: 17px;
+      opacity: 0.9;
+      max-width: 550px;
+      margin: 0 auto 35px;
+      line-height: 1.6;
+    }
+
+    .search-box {
+      background: #fff;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    }
+
+    .search-box h3 {
+      color: #333;
+      font-size: 16px;
+      margin-bottom: 18px;
+      font-weight: 600;
+    }
+
+    .input-row {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .input-row input {
+      padding: 12px 15px;
+      border: 1.5px solid #dee2e6;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: 'Poppins', sans-serif;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input-row input:focus {
+      border-color: #e63946;
+    }
+
+    .transport-options {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .transport-options label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+      color: #555;
+      cursor: pointer;
+    }
+
+    .search-btn {
+      width: 100%;
+      padding: 13px;
+      background: #e63946;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .search-btn:hover {
+      background: #c1121f;
+    }
+
+    #result-box {
+      display: none;
+      margin-top: 15px;
+      padding: 15px;
+      background: #f1faee;
+      border-left: 4px solid #2a9d8f;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #333;
+      line-height: 1.7;
+    }
+
+    .stats-section {
+      background: #fff;
+      padding: 50px 40px;
+      text-align: center;
+    }
+
+    .stats-grid {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      flex-wrap: wrap;
+    }
+
+    .stat-item h2 {
+      font-size: 36px;
+      font-weight: 700;
+      color: #e63946;
+    }
+
+    .stat-item p {
+      font-size: 14px;
+      color: #777;
+      margin-top: 4px;
+    }
+
+    .features-section {
+      padding: 70px 40px;
+      background: #f8f9fa;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: #777;
+      font-size: 15px;
+      margin-bottom: 45px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .feature-card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 28px 22px;
+      border: 1.5px solid #e9ecef;
+      transition: box-shadow 0.2s, transform 0.2s;
+      cursor: default;
+    }
+
+    .feature-card:hover {
+      box-shadow: 0 6px 20px rgba(0,0,0,0.09);
+      transform: translateY(-3px);
+    }
+
+    .feature-icon {
+      font-size: 32px;
+      margin-bottom: 14px;
+    }
+
+    .feature-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #222;
+    }
+
+    .feature-card p {
+      font-size: 13px;
+      color: #777;
+      line-height: 1.7;
+    }
+
+    .cities-section {
+      background: #fff;
+      padding: 70px 40px;
+    }
+
+    .cities-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .city-card {
+      background: #f8f9fa;
+      border: 1.5px solid #e9ecef;
+      border-radius: 10px;
+      padding: 22px 18px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .city-card:hover {
+      background: #e63946;
+      color: #fff;
+      border-color: #e63946;
+    }
+
+    .city-card:hover .city-name,
+    .city-card:hover .city-sub {
+      color: #fff;
+    }
+
+    .city-card .city-emoji {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .city-name {
+      font-size: 15px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .city-sub {
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    .how-section {
+      background: #f8f9fa;
+      padding: 70px 40px;
+    }
+
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 25px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .step-card {
+      text-align: center;
+      padding: 20px;
+    }
+
+    .step-number {
+      width: 50px;
+      height: 50px;
+      background: #e63946;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 auto 16px;
+    }
+
+    .step-card h3 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #222;
+    }
+
+    .step-card p {
+      font-size: 13px;
+      color: #777;
+      line-height: 1.6;
+    }
+
+    .alerts-section {
+      background: #fff;
+      padding: 70px 40px;
+    }
+
+    .alerts-wrapper {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .alert-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 16px 0;
+      border-bottom: 1px solid #e9ecef;
+      cursor: pointer;
+      transition: padding-left 0.2s;
+    }
+
+    .alert-item:hover {
+      padding-left: 6px;
+    }
+
+    .alert-item:last-child {
+      border-bottom: none;
+    }
+
+    .alert-icon {
+      font-size: 22px;
+      padding-top: 2px;
+    }
+
+    .alert-text strong {
+      display: block;
+      font-size: 14px;
+      color: #222;
+      margin-bottom: 3px;
+    }
+
+    .alert-text span {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .alert-badge {
+      margin-left: auto;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .badge-delay  { background: #ffe3e3; color: #e63946; }
+    .badge-normal { background: #d3f9d8; color: #2f9e44; }
+    .badge-crowd  { background: #e9d8fd; color: #7048e8; }
+    .badge-weather{ background: #fff3bf; color: #f08c00; }
+
+
+    .testimonials-section {
+      background: #f8f9fa;
+      padding: 70px 40px;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .testimonial-card {
+      background: #fff;
+      border: 1.5px solid #e9ecef;
+      border-radius: 10px;
+      padding: 24px;
+    }
+
+    .testimonial-card p {
+      font-size: 14px;
+      color: #555;
+      line-height: 1.7;
+      font-style: italic;
+      margin-bottom: 18px;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .author-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #f1f3f5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .author-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .author-city {
+      font-size: 12px;
+      color: #999;
+    }
+
+    .stars {
+      color: #f59f00;
+      font-size: 13px;
+      margin-bottom: 12px;
+    }
+
+    .faq-section {
+      background: #fff;
+      padding: 70px 40px;
+    }
+
+    .faq-wrapper {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border-bottom: 1.5px solid #e9ecef;
+    }
+
+    .faq-question {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 500;
+      color: #333;
+    }
+
+    .faq-question:hover {
+      color: #e63946;
+    }
+
+    .faq-toggle {
+      font-size: 20px;
+      color: #aaa;
+      transition: transform 0.3s;
+      line-height: 1;
+    }
+
+    .faq-item.open .faq-toggle {
+      transform: rotate(45deg);
+      color: #e63946;
+    }
+
+    .faq-answer {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.7;
+      display: none;
+      padding-bottom: 18px;
+    }
+
+    .cta-section {
+      background: #222;
+      color: #fff;
+      padding: 60px 40px;
+      text-align: center;
+    }
+
+    .cta-section h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .cta-section p {
+      font-size: 15px;
+      opacity: 0.7;
+      margin-bottom: 28px;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-btn-primary {
+      background: #e63946;
+      color: #fff;
+      padding: 13px 28px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .cta-btn-primary:hover {
+      background: #c1121f;
+    }
+
+    .cta-btn-secondary {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.3);
+      padding: 13px 28px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: border-color 0.2s;
+    }
+
+    .cta-btn-secondary:hover {
+      border-color: #fff;
+    }
+
+    footer {
+      background: #111;
+      color: #ccc;
+      padding: 50px 40px 30px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+
+    .footer-brand .logo {
+      font-size: 20px;
+      color: #e63946;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    .footer-brand p {
+      font-size: 13px;
+      line-height: 1.7;
+      color: #888;
+      max-width: 240px;
+    }
+
+    .footer-col h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 14px;
+    }
+
+    .footer-col a {
+      display: block;
+      font-size: 13px;
+      color: #888;
+      text-decoration: none;
+      margin-bottom: 9px;
+      transition: color 0.2s;
+    }
+
+    .footer-col a:hover {
+      color: #e63946;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #222;
+      padding-top: 25px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #555;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 15px 20px; }
+      .nav-links { display: none; flex-direction: column; gap: 15px; }
+      .nav-links.open { display: flex; position: absolute; top: 60px; left: 0; right: 0; background: #fff; padding: 20px; border-bottom: 1px solid #e9ecef; }
+      .hamburger { display: block; }
+
+      .hero { padding: 50px 20px; }
+      .hero h1 { font-size: 28px; }
+
+      .stats-grid { gap: 30px; }
+
+      .features-grid { grid-template-columns: 1fr; max-width: 400px; }
+      .cities-grid { grid-template-columns: repeat(2, 1fr); }
+      .steps-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid { grid-template-columns: 1fr; max-width: 400px; }
+
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 25px; }
+      .features-section, .cities-section, .how-section, .alerts-section,
+      .testimonials-section, .faq-section, .cta-section { padding: 50px 20px; }
+      footer { padding: 40px 20px 25px; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="relative">
+  <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+    <div class="relative flex h-16 items-center justify-between">
+      <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+        <div class="flex shrink-0 items-center">
+          <a href="#" class="logo">City<span>Route</span>.in</a>
+        </div>
+        <div class="hidden sm:ml-6 sm:block">
+          <div class="flex">
+            <a href="#features" aria-current="page" class="rounded-md px-3 py-2 text-sm">Features</a>
+            <a href="#cities" class="rounded-md px-3 py-2 text-sm">Cities</a>
+            <a href="#how" class="rounded-md px-3 py-2 text-sm">How It Works</a>
+            <a href="#alerts" class="rounded-md px-3 py-2 text-sm">Live Alerts</a>
+            <a href="#" class="rounded-md px-3 py-2 text-sm"><button>Get App</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <h1>Navigate Every Street,<br>Every City in India</h1>
+  <p>Plan your commute using metro, bus, cab or train — with real-time delays, crowd updates and last-mile routes.</p>
+
+  <div class="search-box">
+    <h3>🗺️ Find Your Route</h3>
+
+    <div class="input-row">
+      <input type="text" id="fromInput" placeholder="📍 From — Enter your location or landmark" />
+      <input type="text" id="toInput" placeholder="🏁 To — Enter destination" />
+    </div>
+
+    <div class="transport-options">
+      <label><input type="checkbox" value="metro" checked> 🚇 Metro</label>
+      <label><input type="checkbox" value="bus" checked> 🚌 Bus</label>
+      <label><input type="checkbox" value="cab"> 🚕 Cab</label>
+      <label><input type="checkbox" value="train"> 🚆 Train</label>
+    </div>
+
+    <button class="search-btn" id="searchBtn">Search Best Route</button>
+
+    <div id="result-box"></div>
+  </div>
+</section>
+
+<section class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <h2>28+</h2>
+      <p>Cities Covered</p>
+    </div>
+    <div class="stat-item">
+      <h2>2.4L+</h2>
+      <p>Daily Commutes Planned</p>
+    </div>
+    <div class="stat-item">
+      <h2>98%</h2>
+      <p>Route Accuracy</p>
+    </div>
+    <div class="stat-item">
+      <h2>4.7★</h2>
+      <p>App Rating</p>
+    </div>
+  </div>
+</section>
+
+<section class="features-section" id="features">
+  <h2 class="section-title">Why CityRoute?</h2>
+  <p class="section-subtitle">Built for how India actually commutes — not how apps think it does.</p>
+
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">🗺️</div>
+      <h3>Multimodal Routing</h3>
+      <p>Combine metro, bus, auto and walking in a single journey. No more switching between 3 different apps.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">⚡</div>
+      <h3>Real-Time Delays</h3>
+      <p>Live delay data from transit APIs and crowdsourced reports. Know before you leave, not after you miss your bus.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">👥</div>
+      <h3>Crowd Density</h3>
+      <p>See how packed your metro or bus is right now. Pick the less crowded option and travel comfortably.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📍</div>
+      <h3>Last Mile Help</h3>
+      <p>Auto-rickshaw zones, bus bays and e-rickshaw spots all mapped. Because navigation shouldn't stop at the station.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌧️</div>
+      <h3>Monsoon Mode</h3>
+      <p>Heavy rains in Mumbai? CityRoute suggests alternate routes before you step outside. Monsoon-proof planning.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">♿</div>
+      <h3>Accessibility Mode</h3>
+      <p>Routes filtered for lifts, ramps and accessible transport. Designed for senior citizens and differently-abled commuters.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cities-section" id="cities">
+  <h2 class="section-title">Available Cities</h2>
+  <p class="section-subtitle">Click on your city to start planning your route.</p>
+
+  <div class="cities-grid">
+    <div class="city-card" data-city="Mumbai">
+      <div class="city-emoji">🌊</div>
+      <div class="city-name">Mumbai</div>
+      <div class="city-sub">Local · Metro · BEST Bus</div>
+    </div>
+    <div class="city-card" data-city="Delhi">
+      <div class="city-emoji">🏛️</div>
+      <div class="city-name">Delhi NCR</div>
+      <div class="city-sub">DMRC · DTC · Rapid Metro</div>
+    </div>
+    <div class="city-card" data-city="Bengaluru">
+      <div class="city-emoji">🌿</div>
+      <div class="city-name">Bengaluru</div>
+      <div class="city-sub">Namma Metro · BMTC</div>
+    </div>
+    <div class="city-card" data-city="Hyderabad">
+      <div class="city-emoji">💎</div>
+      <div class="city-name">Hyderabad</div>
+      <div class="city-sub">Metro Rail · TSRTC</div>
+    </div>
+    <div class="city-card" data-city="Chennai">
+      <div class="city-emoji">🎶</div>
+      <div class="city-name">Chennai</div>
+      <div class="city-sub">Chennai Metro · MTC</div>
+    </div>
+    <div class="city-card" data-city="Pune">
+      <div class="city-emoji">🏍️</div>
+      <div class="city-name">Pune</div>
+      <div class="city-sub">PMPML · Metro</div>
+    </div>
+    <div class="city-card" data-city="Ahmedabad">
+      <div class="city-emoji">🏗️</div>
+      <div class="city-name">Ahmedabad</div>
+      <div class="city-sub">Metro · AMTS · BRTS</div>
+    </div>
+    <div class="city-card" data-city="Kochi">
+      <div class="city-emoji">⛵</div>
+      <div class="city-name">Kochi</div>
+      <div class="city-sub">Metro · Water Metro</div>
+    </div>
+  </div>
+</section>
+
+<section class="how-section" id="how">
+  <h2 class="section-title">How It Works</h2>
+  <p class="section-subtitle">Four simple steps to a stress-free commute.</p>
+
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-number">1</div>
+      <h3>Enter Journey</h3>
+      <p>Type your starting point and destination. Works with landmarks, colony names and station names.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">2</div>
+      <h3>Pick Transport</h3>
+      <p>Choose metro, bus, cab or mixed. Filter by cost, time or comfort — your choice.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">3</div>
+      <h3>Get Live Route</h3>
+      <p>See real-time options with ETAs, crowd levels and delay alerts. Updated every 30 seconds.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">4</div>
+      <h3>Navigate & Go</h3>
+      <p>Turn-by-turn navigation with platform numbers, boarding reminders and last-mile directions.</p>
+    </div>
+  </div>
+</section>
+
+<section class="alerts-section" id="alerts">
+  <h2 class="section-title">🔴 Live Alerts Today</h2>
+  <p class="section-subtitle">Real-time disruptions, crowd warnings and weather updates.</p>
+
+  <div class="alerts-wrapper">
+    <div class="alert-item">
+      <div class="alert-icon">⚠️</div>
+      <div class="alert-text">
+        <strong>Mumbai Metro Line 1 — Delay at Versova</strong>
+        <span>2 min ago · Est. 15 min delay · Try Western Railway instead</span>
+      </div>
+      <span class="alert-badge badge-delay">Delay</span>
+    </div>
+    <div class="alert-item">
+      <div class="alert-icon">🌧️</div>
+      <div class="alert-text">
+        <strong>Heavy rain — Outer Ring Road, Bengaluru</strong>
+        <span>8 min ago · Take inner routes, add 25 min to cab ETA</span>
+      </div>
+      <span class="alert-badge badge-weather">Weather</span>
+    </div>
+    <div class="alert-item">
+      <div class="alert-icon">🟢</div>
+      <div class="alert-text">
+        <strong>Delhi Blue Line — Running on schedule</strong>
+        <span>12 min ago · All stations fully operational</span>
+      </div>
+      <span class="alert-badge badge-normal">Normal</span>
+    </div>
+    <div class="alert-item">
+      <div class="alert-icon">👥</div>
+      <div class="alert-text">
+        <strong>High crowd at Chennai Central Metro</strong>
+        <span>18 min ago · Use Gate 2 alternate entry, 10 min wait</span>
+      </div>
+      <span class="alert-badge badge-crowd">Crowd</span>
+    </div>
+    <div class="alert-item">
+      <div class="alert-icon">🚧</div>
+      <div class="alert-text">
+        <strong>Road work on NH48 — Gurugram section</strong>
+        <span>35 min ago · Add 20 min to all cab ETAs on this stretch</span>
+      </div>
+      <span class="alert-badge badge-delay">Traffic</span>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials-section">
+  <h2 class="section-title">What Commuters Say</h2>
+  <p class="section-subtitle">Real people who use CityRoute every day.</p>
+
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p>"Finally an app that doesn't tell me to take a cab when there's a perfectly good metro. CityRoute actually understands Mumbai. Saved me ₹4,000 this month."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">🧑‍💼</div>
+        <div>
+          <div class="author-name">Priya Nair</div>
+          <div class="author-city">Software Engineer, Mumbai</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p>"The crowd alerts are genuinely useful. I wait two extra minutes and board like a normal person instead of getting crushed into a packed coach."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">👨‍🎓</div>
+        <div>
+          <div class="author-name">Arjun Sharma</div>
+          <div class="author-city">Student, Delhi</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★☆</div>
+      <p>"My father takes the metro independently at 68 because of the Hindi voice navigation. That means everything to me. Thank you CityRoute."</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">👩‍👧</div>
+        <div>
+          <div class="author-name">Kavitha Menon</div>
+          <div class="author-city">Teacher, Bengaluru</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq-section">
+  <h2 class="section-title">Frequently Asked Questions</h2>
+  <p class="section-subtitle">Quick answers to common questions.</p>
+
+  <div class="faq-wrapper">
+    <div class="faq-item">
+      <div class="faq-question">
+        Is CityRoute free to use?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        Yes, CityRoute is completely free for metro, bus and walking routes. A Pro plan at ₹49/month gives you ad-free experience, crowd heatmaps and offline downloads.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">
+        How accurate are the real-time delays?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        We pull from transit authority APIs and crowdsourced user reports. Metro delays are accurate to 2-3 minutes. Buses are harder to predict — Indian roads, you know — but we're honest about that uncertainty.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">
+        Does it work offline?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        You can download city maps and static route data for offline use. Live updates need internet, but downloaded routes and navigation still work without a connection.
+      </div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">
+        Which languages does the app support?
+        <span class="faq-toggle">+</span>
+      </div>
+      <div class="faq-answer">
+        English, Hindi, Marathi, Tamil, Kannada, Telugu, Bengali and Gujarati. Voice navigation works in all of them. Malayalam and Punjabi are coming soon.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2>Download the App Today</h2>
+  <p>Your city commute, simplified. Available on Android and iOS.</p>
+  <div class="cta-buttons">
+    <a href="#" class="cta-btn-primary">📱 Download on App Store</a>
+    <a href="#" class="cta-btn-secondary">🤖 Get on Google Play</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo">CityRoute.in</a>
+      <p>India's smartest urban transit companion. Navigate every street, every city — with confidence and clarity.</p>
+    </div>
+
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="#">Route Planner</a>
+      <a href="#">Live Tracker</a>
+      <a href="#">City Maps</a>
+      <a href="#">CityRoute Pro</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Cities</h4>
+      <a href="#">Mumbai</a>
+      <a href="#">Delhi NCR</a>
+      <a href="#">Bengaluru</a>
+      <a href="#">All 28 Cities</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="#">About Us</a>
+      <a href="#">Careers</a>
+      <a href="#">Blog</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span>© 2025 CityRoute Technologies Pvt. Ltd. · Made in India 🇮🇳</span>
+    <span>
+      <a href="#">Privacy Policy</a> &nbsp;·&nbsp;
+      <a href="#">Terms of Service</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+  $('#hamburger').on('click', function () {
+    $('#navLinks').toggleClass('open');
+  });
+
+  $('#navLinks a').on('click', function () {
+    $('#navLinks').removeClass('open');
+  });
+
+  var sampleRoutes = [
+    {
+      mode: '🚇 Metro + 🚶 Walk',
+      time: '22 min',
+      cost: '₹35',
+      detail: 'Take Blue Line (6 stops) → Walk 400m to destination. Platform 2, departs in 4 min.'
+    },
+    {
+      mode: '🚌 Bus',
+      time: '38 min',
+      cost: '₹15',
+      detail: 'Board Route 312 at Station Road → 8 stops. Moderate crowd. Bus arriving in 7 min.'
+    },
+    {
+      mode: '🚕 Cab',
+      time: '19 min',
+      cost: '₹165',
+      detail: 'Cab available in 3 min. Via Highway flyover. Surge pricing: 1.2x currently active.'
+    },
+    {
+      mode: '🚇 Metro + 🚌 Bus',
+      time: '30 min',
+      cost: '₹50',
+      detail: 'Metro to junction (5 stops) + Bus No. 80 for last 3 km. Best option under ₹60.'
+    }
+  ];
+
+  $('#searchBtn').on('click', function () {
+    var from = $('#fromInput').val().trim();
+    var to   = $('#toInput').val().trim();
+
+    if (from === '' || to === '') {
+      $('#result-box')
+        .show()
+        .css('border-left-color', '#e63946')
+        .html('⚠️ Please enter both a starting location and a destination.');
+      return;
+    }
+
+    $(this).text('Searching...').prop('disabled', true);
+    var btn = $(this);
+
+    setTimeout(function () {
+      var route = sampleRoutes[Math.floor(Math.random() * sampleRoutes.length)];
+
+      $('#result-box')
+        .css('border-left-color', '#2a9d8f')
+        .html(
+          '<strong>✅ Best route found for: ' + from + ' → ' + to + '</strong><br><br>' +
+          '🚦 Mode: ' + route.mode + '<br>' +
+          '⏱ Time: <strong>' + route.time + '</strong>&nbsp;&nbsp;|&nbsp;&nbsp;' +
+          '💸 Cost: <strong>' + route.cost + '</strong><br><br>' +
+          route.detail
+        )
+        .hide()
+        .slideDown(300);
+
+      btn.text('Search Best Route').prop('disabled', false);
+    }, 1200);
+  });
+
+  $('#toInput').on('keypress', function (e) {
+    if (e.which === 13) {
+      $('#searchBtn').trigger('click');
+    }
+  });
+
+  $('.city-card').on('click', function () {
+    var city = $(this).data('city');
+    $('#fromInput').val(city + ' — ');
+    $('html, body').animate({ scrollTop: 0 }, 500);
+    $('#fromInput').focus();
+  });
+
+  $('.faq-question').on('click', function () {
+    var item = $(this).closest('.faq-item');
+    var isOpen = item.hasClass('open');
+
+    $('.faq-item').removeClass('open');
+    $('.faq-answer').slideUp(250);
+
+    if (!isOpen) {
+      item.addClass('open');
+      item.find('.faq-answer').slideDown(250);
+    }
+  });
+</script>
+</body>
+</html>
