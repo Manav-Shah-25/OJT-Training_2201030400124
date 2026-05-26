@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical 10</title>
+    <style>
+        .error-msg {
+            color: red;
+            font-size: 0.9em;
+            display: block;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Practical 10</h1>
+    <h2>Form Validation Example</h2>
+    <br><br>
+    <form onsubmit="return login(event)">
+        <h3>Registration Form</h3>
+        <br>
+        
+        <label for="f-name">Enter Your First Name:</label>
+        <input type="text" id="f-name" oninput="name1()">
+        <span id="err-fname" class="error-msg"></span>
+        <br>
+        
+        <label for="l-name">Enter Your Last Name:</label>
+        <input type="text" id="l-name" oninput="name2()">
+        <span id="err-lname" class="error-msg"></span>
+        <br>
+        
+        <label for="mobile">Enter Your Mobile Number:</label>
+        <input type="text" id="mobile" oninput="digit()" placeholder="Exactly 10 digits">
+        <span id="err-mobile" class="error-msg"></span>
+        <br>
+        
+        <label for="e-mail">Enter Your E-Mail ID:</label>
+        <input type="email" id="e-mail" oninput="em()">
+        <span id="err-email" class="error-msg"></span>
+        <br>
+        
+        <label for="password">Create A Password:</label>
+        <input type="password" id="password" oninput="pass1()" placeholder="8-15 characters long">
+        <span id="err-pwd1" class="error-msg"></span>
+        <br>
+        
+        <label for="c-password">Confirm Your Password:</label>
+        <input type="password" id="c-password" oninput="pass2()">
+        <span id="err-pwd2" class="error-msg"></span>
+        <br>
+        
+        <input type="submit" value="Submit" id="submit">
+    </form>
+
+    <script>
+        let first = document.getElementById("f-name");
+        let regex1 = /^[A-Za-z]{2,30}$/; 
+        
+        let last = document.getElementById("l-name");
+        let regex2 = /^[A-Za-z]{2,30}$/; 
+        
+        let mob = document.getElementById("mobile");
+        let regex3 = /^[0-9]{10}$/; 
+        
+        let email = document.getElementById("e-mail");
+        let regex4 = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; 
+        
+        let pwd1 = document.getElementById("password");
+        let regex5 = /^.{8,15}$/; 
+        
+        let pwd2 = document.getElementById("c-password");
+
+        function name1() {
+            let err = document.getElementById("err-fname");
+            if (!regex1.test(first.value)) {
+                err.textContent = "First name must be letters only (2-30 characters).";
+                return false;
+            } else {
+                err.textContent = "";
+                return true;
+            }
+        }
+
+        function name2() {
+            let err = document.getElementById("err-lname");
+            if (!regex2.test(last.value)) {
+                err.textContent = "Last name must be letters only (2-30 characters).";
+                return false;
+            } else {
+                err.textContent = "";
+                return true;
+            }
+        }
+
+        function digit() {
+            let err = document.getElementById("err-mobile");
+            if (!regex3.test(mob.value)) {
+                err.textContent = "Please enter a valid 10-digit mobile number.";
+                return false;
+            } else {
+                err.textContent = "";
+                return true;
+            }
+        }
+
+        function em() {
+            let err = document.getElementById("err-email");
+            if (!regex4.test(email.value)) {
+                err.textContent = "Please enter a valid email address (e.g., name@domain.com).";
+                return false;
+            } else {
+                err.textContent = "";
+                return true;
+            }
+        }
+
+        function pass1() {
+            let err = document.getElementById("err-pwd1");
+            if (!regex5.test(pwd1.value)) {
+                err.textContent = "Password must be between 8 and 15 characters long.";
+                return false;
+            } else {
+                err.textContent = "";
+                return true;
+            }
+        }
+
+        function pass2() {
+            let err = document.getElementById("err-pwd2");
+            if (pwd2.value !== pwd1.value || pwd2.value === "") {
+                err.textContent = "Passwords do not match.";
+                return false;
+            } else {
+                err.textContent = "";
+                return true;
+            }
+        }
+
+        function login(event) {
+            event.preventDefault(); 
+
+            let isFirstValid = name1();
+            let isLastValid = name2();
+            let isMobValid = digit();
+            let isEmailValid = em();
+            let isPwd1Valid = pass1();
+            let isPwd2Valid = pass2();
+
+            if (isFirstValid && isLastValid && isMobValid && isEmailValid && isPwd1Valid && isPwd2Valid) {
+                alert("Registration Successful!");
+                return true;
+            } else {
+                alert("Please correct the errors in the form before submitting.");
+                return false;
+            }
+        }
+    </script>
+</body>
+</html>
