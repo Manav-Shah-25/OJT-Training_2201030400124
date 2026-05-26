@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical 12: Move Div Elements using jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        .container {
+            border: 3px solid black;
+            background-color: #f0f0f0;
+            padding: 20px;
+            width: 150px;
+            min-height: 150px;
+            margin-top: 10px;
+        }
+        #box-to-move {
+            background-color: green;
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            width: 40px;
+            
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Practical 12</h1>
+    <h2>Move Div Element Inside Another Using jQuery</h2>
+
+    <div id="box-to-move">
+        Box
+    </div>
+
+    <div id="target-container" class="container">
+        <h3>Container</h3>
+        </div>
+
+    <br>
+    <button id="move-btn">Move Box Inside Container</button>
+
+    <script>
+        $(document).ready(function() {
+            $("#move-btn").click(function() {
+                $("#box-to-move").appendTo("#target-container");
+                $(this).text("Done!").prop("disabled", true); 
+            });
+        });
+    </script>
+</body>
+</html>
