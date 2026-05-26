@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practical 13: Remove Table Row using jQuery</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        table {
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #dddddd;
+        }
+        th {
+            background-color: navy;
+            color: white;
+        }
+        .delete-btn {
+            background-color: navy;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Practical 13</h1>
+    <h2>Remove a Specific Table Row Using JQuery</h2>
+    <br>
+    <table id="student-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Subject</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Rohan</td>
+                <td>Mathematics</td>
+                <td><button class="delete-btn">Delete</button></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Rahul</td>
+                <td>Physics</td>
+                <td><button class="delete-btn">Delete</button></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Alex</td>
+                <td>Chemistry</td>
+                <td><button class="delete-btn">Delete</button></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>Pranshu</td>
+                <td>Biology</td>
+                <td><button class="delete-btn">Delete</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            $("#student-table").on("click", ".delete-btn", function() {
+                $(this).closest("tr").remove();  
+            });
+        });
+    </script>
+</body>
+</html>
