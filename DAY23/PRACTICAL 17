@@ -1,0 +1,46 @@
+const mongoose = require('mongoose');
+
+
+const dbURI = 'mongodb://localhost:27017/CityRouteDB';
+
+
+mongoose.connect(dbURI)
+  .then(() => {
+    console.log('🔄 Successfully connected to MongoDB server...');
+    insertFirstRecord();
+  })
+  .catch((err) => {
+    console.error('❌ Connection error encountered:', err);
+  });
+
+
+const citySchema = new mongoose.Schema({
+    cityName: String,
+    activeRoutes: Number,
+    isOperational: Boolean
+});
+
+
+const City = mongoose.model('City', citySchema);
+
+
+async function insertFirstRecord() {
+    try {
+    
+        const newCity = new City({
+            cityName: "Mumbai",
+            activeRoutes: 42,
+            isOperational: true
+        });
+
+       
+        const savedData = await newCity.save();
+        console.log('✅ First record saved successfully:', savedData);
+        console.log('🎉 "CityRouteDB" database and "cities" collection are now fully created!');
+        
+       
+        mongoose.connection.close();
+    } catch (error) {
+        console.error('❌ Failed to insert data and create database:', error);
+    }
+}
