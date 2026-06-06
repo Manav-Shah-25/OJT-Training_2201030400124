@@ -1,0 +1,34 @@
+function loginUser(email, password, callback) {
+    setTimeout(() => {
+        console.log("1. User logged in successfully.");
+        callback({ userEmail: email });
+    }, 1000);
+}
+
+function getUserDashboardData(userEmail, callback) {
+    setTimeout(() => {
+        console.log("2. Retrieved user dashboard details.");
+        callback(["Route1", "Route2", "Route3"]);
+    }, 1000);
+}
+
+function getRouteDetails(routeName, callback) {
+    setTimeout(() => {
+        console.log(`3. Fetched live details for: ${routeName}`);
+        callback({ status: "On Time", delay: "0 mins" });
+    }, 1000);
+}
+
+
+loginUser("manav@example.com", "password123", (user) => {
+    
+    getUserDashboardData(user.userEmail, (routes) => {
+        
+        getRouteDetails(routes[0], (details) => {
+            
+            console.log(`Final Result: Your route is currently ${details.status}.`);
+            
+            
+        });
+    });
+});
