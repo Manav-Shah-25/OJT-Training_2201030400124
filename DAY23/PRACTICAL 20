@@ -1,0 +1,48 @@
+const mongoose = require('mongoose');
+
+const dbURI = 'mongodb://localhost:27017/CityRouteDB';
+
+mongoose.connect(dbURI)
+  .then(() => {
+    insertOrder();
+  })
+  .catch((err) => console.error(err));
+
+const orderSchema = new mongoose.Schema({
+    orderId: { type: String, required: true, unique: true },
+    customerRef: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: true },
+    routeName: { type: String, required: true },
+    farePaid: { type: Number, required: true },
+    paymentStatus: { type: String, default: 'Completed' },
+    purchaseDate: { type: Date, default: Date.now }
+});
+
+const Order = mongoose.model('Order', orderSchema);
+
+async function insertOrder() {
+    try {
+        const Customer = mongoose.model('Customer');
+        const targetCustomer = await Customer.findOne({ customerId: "CR-2026-001" });
+
+        if (!targetCustomer) {
+            console.log("Required customer document not found.");
+            mongoose.connection.close();
+            return;
+        }
+
+        const newOrder = new Order({
+            orderId: "ORD-2026-9901",
+            customerRef: targetCustomer._id,
+            routeName: "Mumbai Metro Line 1 Pass",
+            farePaid: 450,
+            paymentStatus: "Completed"
+        });
+
+        const result = await newOrder.save();
+        console.log(result);
+
+        mongoose.connection.close();
+    } catch (error) {
+        console.error(error);
+    }
+}
