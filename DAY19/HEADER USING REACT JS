@@ -1,0 +1,111 @@
+import React, { useState } from 'react';
+
+function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+
+  const styles = {
+    nav: {
+      backgroundColor: '#fff',
+      padding: '15px 40px',
+      display: 'flex',
+      justifyContent: 'space-between',
+      align-items: 'center',
+      borderBottom: '2px solid #e9ecef',
+      position: 'sticky',
+      top: 0,
+      zIndex: 100,
+      fontFamily: "'Poppins', sans-serif",
+    },
+    logo: {
+      fontSize: '22px',
+      fontWeight: 700,
+      color: '#e63946',
+      textDecoration: 'none',
+    },
+    logoSpan: {
+      color: '#333',
+    },
+    flexLinks: {
+      listStyle: 'none',
+      display: 'flex',
+      gap: '30px',
+      alignItems: 'center',
+    },
+    link: {
+      textDecoration: 'none',
+      color: '#555',
+      fontSize: '14px',
+      fontMedium: 500,
+    },
+    button: {
+      backgroundColor: '#e63946',
+      color: '#fff',
+      padding: '8px 20px',
+      borderRadius: '6px',
+      border: 'none',
+      cursor: 'pointer',
+      fontFamily: "'Poppins', sans-serif",
+      fontSize: '14px',
+      fontWeight: 500,
+    }
+  };
+
+  return (
+    <nav style={styles.nav} className="relative">
+     
+      <div className="mx-auto max-w-7xl w-full px-2 sm:px-6 lg:px-8 flex justify-between items-center">
+        
+       
+        <a href="#" style={styles.logo}>
+          City<span style={styles.logoSpan}>Route</span>.in
+        </a>
+
+        
+        <div className="hidden sm:block">
+          <ul style={styles.flexLinks}>
+            <li><a href="#features" style={styles.link} className="hover:text-[#e63946] transition-colors">Features</a></li>
+            <li><a href="#cities" style={styles.link} className="hover:text-[#e63946] transition-colors">Cities</a></li>
+            <li><a href="#how" style={styles.link} className="hover:text-[#e63946] transition-colors">How It Works</a></li>
+            <li><a href="#alerts" style={styles.link} className="hover:text-[#e63946] transition-colors">Live Alerts</a></li>
+            <li>
+              <button 
+                style={styles.button} 
+                className="hover:bg-[#c1121f] transition-colors"
+              >
+                Get App
+              </button>
+            </li>
+          </ul>
+        </div>
+
+       
+        <button 
+          onClick={toggleMenu}
+          className="block sm:hidden text-2xl text-[#333] focus:outline-none cursor-pointer"
+        >
+          {isOpen ? '✕' : '☰'}
+        </button>
+      </div>
+
+      
+      {isOpen && (
+        <div className="absolute top-[60px] left-0 right-0 bg-white p-5 border-b border-[#e9ecef] flex flex-col gap-[15px] sm:hidden shadow-md z-[150]">
+          <a href="#features" onClick={toggleMenu} style={styles.link} className="hover:text-[#e63946]">Features</a>
+          <a href="#cities" onClick={toggleMenu} style={styles.link} className="hover:text-[#e63946]">Cities</a>
+          <a href="#how" onClick={toggleMenu} style={styles.link} className="hover:text-[#e63946]">How It Works</a>
+          <a href="#alerts" onClick={toggleMenu} style={styles.link} className="hover:text-[#e63946]">Live Alerts</a>
+          <button style={styles.button} className="w-full hover:bg-[#c1121f]">
+            Get App
+          </button>
+        </div>
+      )}
+    </nav>
+  );
+}
+
+export default Header;
