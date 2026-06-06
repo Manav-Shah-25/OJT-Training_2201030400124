@@ -1,0 +1,64 @@
+const customerSchema = new mongoose.Schema({
+    customerId: { type: String, required: true, unique: true },
+    fullName: { type: String, required: true },
+    email: { type: String, required: true },
+    phoneNumber: String,
+    city: { type: String, required: true },
+    joinDate: { type: Date, default: Date.now },
+    status: { type: String, default: 'Active' },
+    preferences: {
+        preferredMode: String,
+        notificationsEnabled: Boolean
+    }
+});
+
+const orderSchema = new mongoose.Schema({
+    orderId: { type: String, required: true, unique: true },
+    customerRef: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: true },
+    routeName: { type: String, required: true },
+    farePaid: { type: Number, required: true },
+    paymentStatus: { type: String, default: 'Completed' },
+    purchaseDate: { type: Date, default: Date.now }
+});
+
+async function fetchRecentOrders() {
+    try {
+        const fiveDaysAgo = new Date();
+        fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
+
+        const orders = await Order.find({
+            purchaseDate: { $gte: fiveDaysAgo }
+        }).populate('customerRef');
+
+        console.log(orders);
+        mongoose.connection.close();
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+async function fetchAhmedabadOrders() {
+    try {
+        const orders = await Order.find()
+            .populate({
+                path: 'customerRef',
+                match: { city: 'Ahmedabad' }
+            });
+
+        const filteredOrders = orders.filter(order => order.customerRef !== null);
+
+        const tableData = filteredOrders.map(order => ({
+            'Order ID': order.orderId,
+            'Route': order.routeName,
+            'Fare': order.farePaid,
+            'Customer Name': order.customerRef.fullName,
+            'Email': order.customerRef.email,
+            'City': order.customerRef.city
+        }));
+
+        console.table(tableData);
+        mongoose.connection.close();
+    } catch (error) {
+        console.error(error);
+    }
+}
