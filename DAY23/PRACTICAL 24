@@ -1,0 +1,89 @@
+const express = require('express');
+const mongoose = require('mongoose');
+
+const app = express();
+const PORT = 3000;
+
+app.use(express.json());
+
+mongoose.connect('mongodb://localhost:27017/CityRouteDB')
+  .then(() => console.log('Connected to MongoDB...'))
+  .catch((err) => console.error(err));
+
+const customerSchema = new mongoose.Schema({
+    customerId: { type: String, required: true, unique: true },
+    fullName: String,
+    city: String
+});
+const Customer = mongoose.model('Customer', customerSchema);
+
+const orderSchema = new mongoose.Schema({
+    orderId: { type: String, required: true, unique: true },
+    customerRef: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: true },
+    routeName: { type: String, required: true },
+    farePaid: { type: Number, required: true },
+    paymentStatus: { type: String, default: 'Pending' },
+    purchaseDate: { type: Date, default: Date.now }
+});
+const Order = mongoose.model('Order', orderSchema);
+
+app.post('/api/orders', async (req, res) => {
+    try {
+        const { orderId, customerId, routeName, farePaid, paymentStatus } = req.body;
+
+        if (!orderId || !customerId || !routeName || !farePaid) {
+            return res.status(400).json({
+                success: false,
+                message: "Missing required fields: orderId, customerId, routeName, farePaid"
+            });
+        }
+
+        const existingOrder = await Order.findOne({ orderId });
+        if (existingOrder) {
+            return res.status(409).json({
+                success: false,
+                message: "Duplicate entry: An order with this orderId already exists"
+            });
+        }
+
+        const customer = await Customer.findOne({ customerId });
+        if (!customer) {
+            return res.status(404).json({
+                success: false,
+                message: "Reference error: Provided customerId does not exist in Customer Master"
+            });
+        }
+
+        const newOrder = new Order({
+            orderId,
+            customerRef: customer._id,
+            routeName,
+            farePaid,
+            paymentStatus: paymentStatus || 'Pending'
+        });
+
+        const savedOrder = await newOrder.save();
+
+        res.status(201).json({
+            success: true,
+            message: "Order received and processed successfully",
+            data: {
+                systemId: savedOrder._id,
+                orderId: savedOrder.orderId,
+                customerName: customer.fullName,
+                purchaseDate: savedOrder.purchaseDate
+            }
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Internal server error while processing the transaction",
+            error: error.message
+        });
+    }
+});
+
+app.listen(PORT, () => {
+    console.log(`API Receiver listening at http://localhost:${PORT}`);
+});
