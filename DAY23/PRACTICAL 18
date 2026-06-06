@@ -1,0 +1,49 @@
+const mongoose = require('mongoose');
+
+
+const dbURI = 'mongodb://localhost:27017/CityRouteDB';
+
+mongoose.connect(dbURI)
+  .then(() => {
+    console.log('🔄 Connected to MongoDB successfully...');
+    createNewCollection(); 
+  })
+  .catch((err) => console.error('❌ Connection error:', err));
+
+
+const routeSchema = new mongoose.Schema({
+    fromLocation: String,
+    toLocation: String,
+    travelTime: String,
+    estimatedCost: String,
+    transportMode: String
+});
+
+
+const Route = mongoose.model('Route', routeSchema);
+
+
+
+async function createNewCollection() {
+    try {
+     
+        const sampleRoute = new Route({
+            fromLocation: "Andheri",
+            toLocation: "Bandra",
+            travelTime: "25 mins",
+            estimatedCost: "₹40",
+            transportMode: "Metro"
+        });
+
+    
+        const result = await sampleRoute.save();
+        
+        console.log('✅ Document successfully saved:', result);
+        console.log('🎉 The collection "routes" has been officially created in MongoDB!');
+        
+ 
+        mongoose.connection.close();
+    } catch (error) {
+        console.error('❌ Error creating collection:', error);
+    }
+}
