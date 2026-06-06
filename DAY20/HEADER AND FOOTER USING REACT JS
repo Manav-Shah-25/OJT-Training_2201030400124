@@ -1,0 +1,213 @@
+import React, { useState } from 'react';
+
+
+function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const styles = {
+    nav: {
+      backgroundColor: '#fff',
+      padding: '15px 40px',
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      borderBottom: '2px solid #e9ecef',
+      position: 'sticky',
+      top: 0,
+      zIndex: 100,
+      fontFamily: "'Poppins', sans-serif",
+    },
+    logo: {
+      fontSize: '22px',
+      fontWeight: 700,
+      color: '#e63946',
+      textDecoration: 'none',
+    },
+    logoSpan: { color: '#333' },
+    flexLinks: {
+      listStyle: 'none',
+      display: 'flex',
+      gap: '30px',
+      alignItems: 'center',
+    },
+    link: {
+      textDecoration: 'none',
+      color: '#555',
+      fontSize: '14px',
+      fontWeight: 500,
+    },
+    button: {
+      backgroundColor: '#e63946',
+      color: '#fff',
+      padding: '8px 20px',
+      borderRadius: '6px',
+      border: 'none',
+      cursor: 'pointer',
+      fontFamily: "'Poppins', sans-serif",
+      fontSize: '14px',
+      fontWeight: 500,
+    }
+  };
+
+  return (
+    <nav style={styles.nav} className="relative">
+      <div className="mx-auto max-w-7xl w-full px-2 sm:px-6 lg:px-8 flex justify-between items-center">
+        <a href="#" style={styles.logo}>
+          City<span style={styles.logoSpan}>Route</span>.in
+        </a>
+        <div className="hidden sm:block">
+          <ul style={styles.flexLinks}>
+            <li><a href="#features" style={styles.link} className="hover:text-[#e63946] transition-colors">Features</a></li>
+            <li><a href="#cities" style={styles.link} className="hover:text-[#e63946] transition-colors">Cities</a></li>
+            <li><a href="#how" style={styles.link} className="hover:text-[#e63946] transition-colors">How It Works</a></li>
+            <li><a href="#alerts" style={styles.link} className="hover:text-[#e63946] transition-colors">Live Alerts</a></li>
+            <li>
+              <button style={styles.button} className="hover:bg-[#c1121f] transition-colors">Get App</button>
+            </li>
+          </ul>
+        </div>
+        <button onClick={toggleMenu} className="block sm:hidden text-2xl text-[#333] focus:outline-none cursor-pointer">
+          {isOpen ? '✕' : '☰'}
+        </button>
+      </div>
+
+      {isOpen && (
+        <div className="absolute top-[60px] left-0 right-0 bg-white p-5 border-b border-[#e9ecef] flex flex-col gap-[15px] sm:hidden shadow-md z-[150]">
+          <a href="#features" onClick={toggleMenu} style={styles.link} className="hover:text-[#e63946]">Features</a>
+          <a href="#cities" onClick={toggleMenu} style={styles.link} className="hover:text-[#e63946]">Cities</a>
+          <a href="#how" onClick={toggleMenu} style={styles.link} className="hover:text-[#e63946]">How It Works</a>
+          <a href="#alerts" onClick={toggleMenu} style={styles.link} className="hover:text-[#e63946]">Live Alerts</a>
+          <button style={styles.button} className="w-full hover:bg-[#c1121f]">Get App</button>
+        </div>
+      )}
+    </nav>
+  );
+}
+
+
+function Footer() {
+  const styles = {
+    footer: {
+      backgroundColor: '#111',
+      color: '#ccc',
+      padding: '50px 40px 30px',
+      fontFamily: "'Poppins', sans-serif",
+    },
+    logo: {
+      fontSize: '20px',
+      fontWeight: 700,
+      color: '#e63946',
+      textDecoration: 'none',
+      display: 'inline-block',
+      marginBottom: '12px',
+    },
+    logoSpan: { color: '#fff' },
+    brandText: {
+      fontSize: '13px',
+      lineHeight: 1.7,
+      color: '#888',
+      maxWidth: '240px',
+    },
+    colHeading: {
+      fontSize: '14px',
+      fontWeight: 600,
+      color: '#fff',
+      marginBottom: '14px',
+    },
+    link: {
+      display: 'block',
+      fontSize: '13px',
+      color: '#888',
+      textDecoration: 'none',
+      marginBottom: '9px',
+    },
+    bottomRow: {
+      borderTop: '1px solid #222',
+      paddingTop: '25px',
+      display: 'flex',
+      justifyContent: 'space-between',
+      fontSize: '12px',
+      color: '#555',
+      flexWrap: 'wrap',
+      gap: '10px',
+      marginTop: '40px',
+    },
+    bottomLink: { color: '#555', textDecoration: 'none' }
+  };
+
+  return (
+    <footer style={styles.footer}>
+      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-10">
+        <div>
+          <a href="#" style={styles.logo}>
+            City<span style={styles.logoSpan}>Route</span>.in
+          </a>
+          <p style={styles.brandText}>
+            India's smartest urban transit companion. Navigate every street, every city — with confidence and clarity.
+          </p>
+        </div>
+        <div>
+          <h4 style={styles.colHeading}>Product</h4>
+          <a href="#" style={styles.link} className="hover:text-[#e63946] transition-colors">Route Planner</a>
+          <a href="#" style={styles.link} className="hover:text-[#e63946] transition-colors">Live Tracker</a>
+          <a href="#" style={styles.link} className="hover:text-[#e63946] transition-colors">City Maps</a>
+          <a href="#" style={styles.link} className="hover:text-[#e63946] transition-colors">CityRoute Pro</a>
+        </div>
+        <div>
+          <h4 style={styles.colHeading}>Cities</h4>
+          <a href="#" style={styles.link} className="hover:text-[#e63946] transition-colors">Mumbai</a>
+          <a href="#" style={styles.link} className="hover:text-[#e63946] transition-colors">Delhi NCR</a>
+          <a href="#" style={styles.link} className="hover:text-[#e63946] transition-colors">Bengaluru</a>
+          <a href="#" style={styles.link} className="hover:text-[#e63946] transition-colors">All 28 Cities</a>
+        </div>
+        <div>
+          <h4 style={styles.colHeading}>Company</h4>
+          <a href="#" style={styles.link} className="hover:text-[#e63946] transition-colors">About Us</a>
+          <a href="#" style={styles.link} className="hover:text-[#e63946] transition-colors">Careers</a>
+          <a href="#" style={styles.link} className="hover:text-[#e63946] transition-colors">Blog</a>
+          <a href="#" style={styles.link} className="hover:text-[#e63946] transition-colors">Contact</a>
+        </div>
+      </div>
+      <div className="max-w-7xl mx-auto" style={styles.bottomRow}>
+        <span>© 2025 CityRoute Technologies Pvt. Ltd. · Made in India 🇮🇳</span>
+        <span>
+          <a href="#" style={styles.bottomLink} className="hover:text-[#e63946] transition-colors">Privacy Policy</a>
+          &nbsp;·&nbsp;
+          <a href="#" style={styles.bottomLink} className="hover:text-[#e63946] transition-colors">Terms of Service</a>
+        </span>
+      </div>
+    </footer>
+  );
+}
+
+
+function App() {
+  return (
+    <div className="flex flex-col min-h-screen bg-[#f8f9fa] font-['Poppins']">
+      
+     
+      <Header />
+
+  
+      <main className="flex-grow flex flex-col justify-center items-center text-center p-10">
+        <h1 className="text-4xl md:text-5xl font-bold text-[#333] mb-2">
+          Hello People!
+        </h1>
+        <p className="text-lg md:text-xl text-[#555] font-medium">
+          This is my React Website
+        </p>
+      </main>
+
+      
+      <Footer />
+      
+    </div>
+  );
+}
+
+
+export default App;
