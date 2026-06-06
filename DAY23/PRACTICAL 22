@@ -1,0 +1,53 @@
+const mongoose = require('mongoose');
+
+const dbURI = 'mongodb://localhost:27017/CityRouteDB';
+
+mongoose.connect(dbURI)
+  .then(() => {
+    fetchAhmedabadOrders();
+  })
+  .catch((err) => console.error(err));
+
+const customerSchema = new mongoose.Schema({
+    customerId: String,
+    fullName: String,
+    email: String,
+    city: String
+});
+const Customer = mongoose.model('Customer', customerSchema);
+
+const orderSchema = new mongoose.Schema({
+    orderId: String,
+    customerRef: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer' },
+    routeName: String,
+    farePaid: Number,
+    paymentStatus: String,
+    purchaseDate: Date
+});
+const Order = mongoose.model('Order', orderSchema);
+
+async function fetchAhmedabadOrders() {
+    try {
+        const orders = await Order.find()
+            .populate({
+                path: 'customerRef',
+                match: { city: 'Ahmedabad' }
+            });
+
+        const filteredOrders = orders.filter(order => order.customerRef !== null);
+
+        const tableData = filteredOrders.map(order => ({
+            'Order ID': order.orderId,
+            'Route': order.routeName,
+            'Fare': order.farePaid,
+            'Customer Name': order.customerRef.fullName,
+            'Email': order.customerRef.email,
+            'City': order.customerRef.city
+        }));
+
+        console.table(tableData);
+        mongoose.connection.close();
+    } catch (error) {
+        console.error(error);
+    }
+}
