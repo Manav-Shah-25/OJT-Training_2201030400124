@@ -1,0 +1,55 @@
+const express = require('express');
+const multer = require('multer');
+const path = require('path');
+
+const app = express();
+const PORT = 3000;
+
+
+const storage = multer.diskStorage({
+    
+    destination: function (req, file, callback) {
+        callback(null, 'uploads/'); 
+    },
+  
+    filename: function (req, file, callback) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const fileExtension = path.extname(file.originalname);
+        
+        callback(null, file.fieldname + '-' + uniqueSuffix + fileExtension);
+    }
+});
+
+
+const upload = multer({ storage: storage });
+
+
+app.get('/', (req, res) => {
+    res.send(`
+        <h2>Node.js File Upload Tutorial</h2>
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="myFile" required /><br><br>
+            <button type="submit">Upload File To Server</button>
+        </form>
+    `);
+});
+
+
+app.post('/upload', upload.single('myFile'), (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).send('Please select a file to upload.');
+        }
+        
+        console.log("File Saved Successfully Details:", req.file);
+        
+        res.send(`<h3>✅ File uploaded successfully! Check your "uploads/" folder.</h3>`);
+    } catch (error) {
+        res.status(500).send('Server Error occurred during upload.');
+    }
+});
+
+
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+});
