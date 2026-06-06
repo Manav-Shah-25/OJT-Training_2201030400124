@@ -1,0 +1,19 @@
+const express = require('express');
+const app = express();
+const PORT = 3000;
+
+app.get('/test-loop', (req, res) => {
+    console.log("🚩 1. [Synchronous Code] Request received, starting route...");
+
+    setTimeout(() => {
+        console.log("⏰ 3. [Timers Phase] Timeout callback executed!");
+    }, 2000);
+
+    console.log("🚩 2. [Synchronous Code] Reached the end of the route block.");
+    
+    res.send("Check your VS Code terminal to see the execution order!");
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+});
