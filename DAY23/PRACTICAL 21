@@ -1,0 +1,43 @@
+const mongoose = require('mongoose');
+
+const dbURI = 'mongodb://localhost:27017/CityRouteDB';
+
+mongoose.connect(dbURI)
+  .then(() => {
+    fetchRecentOrders();
+  })
+  .catch((err) => console.error(err));
+
+const customerSchema = new mongoose.Schema({
+    customerId: String,
+    fullName: String,
+    email: String
+});
+mongoose.model('Customer', customerSchema);
+
+const orderSchema = new mongoose.Schema({
+    orderId: { type: String, required: true, unique: true },
+    customerRef: { type: mongoose.Schema.Types.ObjectId, ref: 'Customer', required: true },
+    routeName: { type: String, required: true },
+    farePaid: { type: Number, required: true },
+    paymentStatus: { type: String, default: 'Completed' },
+    purchaseDate: { type: Date, default: Date.now }
+});
+
+const Order = mongoose.model('Order', orderSchema);
+
+async function fetchRecentOrders() {
+    try {
+        const fiveDaysAgo = new Date();
+        fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
+
+        const orders = await Order.find({
+            purchaseDate: { $gte: fiveDaysAgo }
+        }).populate('customerRef');
+
+        console.log(orders);
+        mongoose.connection.close();
+    } catch (error) {
+        console.error(error);
+    }
+}
